@@ -20,8 +20,8 @@ class Controller extends BaseController
 
     public function index()
     {
-
-      dd($this->moip);
+       return view('customers.index');
+      //dd($this->moip);
 
     /*try {
           $customer = $this->moip->customers()->setOwnId(uniqid())

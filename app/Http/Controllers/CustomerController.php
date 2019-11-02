@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CustomerRequest;
 use App\AuthMoip;
-
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\RequestException;
 
@@ -47,16 +47,19 @@ class CustomerController extends Controller
      return view('customers.create');
   }
 
-  public function store(Request $request)
+  public function store(CustomerRequest $request)
   {
-
-    //CUS-EC3IW1KQQJ08  -alberto
-
-      $name      = $request->input('name');
-      $email     = $request->input('email');
-      $document  = $request->input('document');
-      $birthDate = $request->input('birthDate');
-      $phone     = $request->input('phone');
+      $name         = $request->input('name');
+      $email        = $request->input('email');
+      $document     = $request->input('document');
+      $birthDate    = $request->input('birthDate');
+      $areaCode     = $request->input('areaCode');
+      $phone        = $request->input('phone');
+      $street       = $request->input('street');
+      $streetNumber = $request->input('streetNumber');
+      $district     = $request->input('district');
+      $city         = $request->input('city');
+      $state        = $request->input('state');
 
       try {
             $customer = $this->moip->customers()->setOwnId(uniqid())
@@ -64,20 +67,16 @@ class CustomerController extends Controller
                 ->setEmail($email)
                 ->setBirthDate($birthDate)
                 ->setTaxDocument($document)
-                ->setPhone(11, 66778899)
-                //->setPhone($phone)
+                ->setPhone($areaCode, $phone)
+                //->setPhone(11, 55552266)
                 ->addAddress('BILLING',
-                    'Rua de teste', 123,
-                    'Bairro', 'Sao Paulo', 'SP',
+                      $street,
+                      $streetNumber,
+                      $district,
+                      $city,
+                      $state,
                     '01234567', 8)
-                ->addAddress('SHIPPING',
-                          'Rua de teste do SHIPPING', 123,
-                          'Bairro do SHIPPING', 'Sao Paulo', 'SP',
-                          '01234567', 8)
                 ->create();
-            // Creating an order
-            //dd($customer);
-
         } catch (\Moip\Exceptions\UnautorizedException $e) {
             echo $e->getMessage();
         } catch (\Moip\Exceptions\ValidationException $e) {
@@ -86,8 +85,9 @@ class CustomerController extends Controller
             echo $e->getMessage();
         }
 
-        print_r($customer);
-
-  }
+        return redirect()
+                  ->route('customer.index')
+                  ->with('success','Cadastrado com sucesso');
+     }
 
 }

@@ -22,18 +22,18 @@
            <table class="table table-bordered">
              <thead>
                <tr>
+                 <th>ID</th>
                  <th>Nome</th>
                  <th>E-mail</th>
-                 <th>Telefone</th>
                  <th>Action</th>
                </tr>
              </thead>
              <tbody>
                <tr>
                	@forelse ($customers as $customer)
-                 <td>{{ $customer->fullname }}</td>
-                 <td>({{ $customer->phone->areaCode }}) {{ $customer->phone->number }}</td>
-                 <td>{{ $customer->email }}</td>
+                 <td>{{ $customer->id }}</td>
+                 <td>{{$customer->fullname}}</td>
+                 <td>{{$customer->email }}</td>
                  <td>
                    [link]
                  </td>

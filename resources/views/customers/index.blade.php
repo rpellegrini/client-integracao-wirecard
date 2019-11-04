@@ -31,11 +31,13 @@
              <tbody>
                <tr>
                	@forelse ($customers as $customer)
-                 <td>{{ $customer->id }}</td>
+                 <td>{{$customer->id }}</td>
                  <td>{{$customer->fullname}}</td>
                  <td>{{$customer->email }}</td>
                  <td>
-                   [link]
+                   <button type="button" class="btn btn-success btn-xs waves-effect waves-light"
+                   onclick="javascript:window.location.href ='{{ route('order.create', ['id'=> $customer->id] ) }}';">Criar Pedido
+                 </button>&nbsp;
                  </td>
                  </tr>
                @empty
